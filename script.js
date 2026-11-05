@@ -133,8 +133,6 @@ document.querySelector(".range").getElementsByTagName("input")[0].addEventListen
     currentSong.volume = parseInt(e.target.value)/100
 })
 
-
-
 }
 
 main()
