@@ -7,6 +7,10 @@
     padding: 0;
 }
 
+.container {
+    min-height: 100vh;
+}
+
 .close {
     display: none;
 }
@@ -22,9 +26,10 @@
     position: relative;
 }
 
-.body {
+body {
     background-color: black;
     color: white;
+    min-height: 100vh;
 }
 
 .home ul li {
@@ -93,7 +98,7 @@
     flex-wrap: wrap;
     margin: 30px;
     overflow-y: auto;
-    max-height: 70vh;
+    max-height: 55vh;
 }
 
 .card {
@@ -280,6 +285,11 @@
     justify-content: center;
     align-items: center;
     gap: 22px;
+    cursor: pointer;
+}
+
+.range input{
+    cursor: pointer;
 }
 
 .abovebar {
@@ -290,6 +300,7 @@
 
 .hamburger {
     display: none;
+    cursor: pointer;
 }
 
 .hamburgerContainer {
@@ -350,12 +361,13 @@
     }
 
     .card {
-        width: 90vw;
+        width: 55vw;
     }
 
     .cardContainer {
         margin: 0;
-        justify-content: cente;
+        justify-content: center;
+        max-height: 50vh;
     }
 
     .close {
@@ -369,8 +381,8 @@
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 500px) {
     .card {
-        width: 84vw;
+        width: auto;
     }
 }
