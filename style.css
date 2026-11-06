@@ -216,7 +216,7 @@
     width: 344px;
 }
 
-.info div{
+.info div {
     word-break: break-all;
 }
 
@@ -312,7 +312,8 @@
         padding: 0;
     }
 
-    .songinfo, .songtime {
+    .songinfo,
+    .songtime {
         width: auto;
     }
 
