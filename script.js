@@ -48,9 +48,9 @@ async function getSongs(folder) {
     }
 
     // attach an event listner to each song
-    Array.from(document.querySelector(".songList").getElementsByTagName("li")).forEach(e => {
+    Array.from(document.querySelector(".songList").getElementsByTagName("li")).forEach((e, index) => {
         e.addEventListener("click", element => {
-            playMusic(e.querySelector(".info").firstElementChild.innerText.trim())
+            playMusic(songs[index])
         })
     })
 }
@@ -60,7 +60,7 @@ const playMusic = (track) => {
     currentSong.src = `/${currFolder}/` + track
     currentSong.play()
     play.src = "/img/pause.svg"
-    document.querySelector(".songinfo").innerHTML = track
+    document.querySelector(".songinfo").innerHTML = track.replace(/\.mp3$/i, "")
     document.querySelector(".songtime").innerHTML = "00:00 / 00:00"
 }
 
@@ -168,11 +168,11 @@ async function main() {
     document.querySelector(".range").getElementsByTagName("input")[0].addEventListener("change", (e) => {
         currentSong.volume = parseInt(e.target.value) / 100
         if (currentSong.volume > 0) {
-        document.querySelector(".volume>img").src = "/img/volume.svg";
-    }
-    else {
-        document.querySelector(".volume>img").src = "/img/mute.svg";
-    }
+            document.querySelector(".volume>img").src = "/img/volume.svg";
+        }
+        else {
+            document.querySelector(".volume>img").src = "/img/mute.svg";
+        }
     })
 
 }
