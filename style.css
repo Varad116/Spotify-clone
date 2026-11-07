@@ -320,13 +320,14 @@ body {
         position: absolute;
         left: -130%;
         transition: all .3s;
-        z-index: 1;
+        z-index: 200;
         width: 373px;
         background-color: black;
         padding: 0;
         height: 100vh;
         position: fixed;
         top: 0;
+        overflow-y: auto;
     }
 
     .songinfo,
@@ -393,6 +394,20 @@ body {
 
     .playbar {
         right: 25px;
+    }
+
+    .library {
+        height: auto;
+    }
+
+    .footer {
+        position: static;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 12px;
+        padding: 15px 10px;
+        font-size: 12px;
     }
 
 }
