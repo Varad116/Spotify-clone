@@ -58,15 +58,20 @@ body {
 
 .footer {
     display: flex;
+    flex-wrap: wrap;
     font-size: 10px;
-    gap: 13px;
+    gap: 8px 12px;
     position: absolute;
     bottom: 0;
+    left: 10px;
+    right: 10px;
     padding: 10px 0px;
+    box-sizing: border-box;
 }
 
 .footer a {
     color: grey;
+    white-space: nowrap;
 }
 
 .library {
