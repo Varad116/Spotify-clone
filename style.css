@@ -296,7 +296,7 @@ body {
     cursor: pointer;
 }
 
-.range input{
+.range input {
     cursor: pointer;
 }
 
@@ -398,7 +398,10 @@ body {
     }
 
     .playbar {
-        right: 25px;
+        width: calc(100vw - 60px);
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
     }
 
     .library {
@@ -436,10 +439,6 @@ body {
 
     .header {
         padding: 7px;
-    }
-
-    .playbar {
-        right: 25px;
     }
 
     .library {
