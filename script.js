@@ -37,7 +37,7 @@ async function getSongs(folder) {
     for (const song of songs) {
         songUL.innerHTML = songUL.innerHTML + `<li><img class="invert" src="img/music.svg" alt="Music">
                         <div class="info">
-                            <div>${song.replace("%5Csongs%5C", " ")}</div>
+                            <div>${song.replace("%5Csongs%5C", " ").replace(/\.mp3$/i, "")}</div>
                             <div>VARAD</div>
                         </div>
                         <div class="playnow">
