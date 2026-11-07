@@ -56,6 +56,7 @@ async function getSongs(folder) {
 }
 
 const playMusic = (track) => {
+    currentIndex = songs.indexOf(track);
     // let audio = new Audio("/songs/" + track)
     currentSong.src = `/${currFolder}/` + track
     currentSong.play()
@@ -150,7 +151,7 @@ async function main() {
 
     // add an event listner to previous
     previous.addEventListener("click", () => {
-        let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0])
+        let index = songs.indexOf(decodeURIComponent(currentSong.src.split("/").slice(-1)[0]))
         if ((index - 1) >= 0) {
             playMusic(songs[index - 1])
         }
@@ -158,9 +159,16 @@ async function main() {
 
     // add an event listner to next
     next.addEventListener("click", () => {
-        let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0])
+        let index = songs.indexOf(decodeURIComponent(currentSong.src.split("/").slice(-1)[0]))
         if ((index + 1) < songs.length) {
             playMusic(songs[index + 1])
+        }
+    })
+
+    // automatically play next song when current song ends
+    currentSong.addEventListener("ended", () => {
+        if (currentIndex < songs.length - 1) {
+            playMusic(songs[currentIndex + 1])
         }
     })
 
