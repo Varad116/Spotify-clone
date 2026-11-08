@@ -270,6 +270,16 @@ body {
     cursor: pointer;
 }
 
+#shuffle {
+    opacity: 0.5;
+    transition: all 0.3s;
+}
+
+#shuffle.active {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
 .timevol {
     display: flex;
     justify-content: space-evenly;

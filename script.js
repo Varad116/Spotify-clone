@@ -1,6 +1,11 @@
 let currentSong = new Audio();
 let songs;
 let currFolder;
+let currentIndex = -1;
+
+let shuffleOn = false;
+let shuffleOrder = [];
+let shufflePosition = -1;
 
 function secondsToMinutesSeconds(seconds) {
     if (isNaN(seconds) || seconds < 0) {
@@ -24,6 +29,9 @@ async function getSongs(folder) {
     div.innerHTML = response;
     let as = div.getElementsByTagName("a")
     songs = []
+    currentIndex = -1;
+    shuffleOrder = [];
+    shufflePosition = -1;
     for (let index = 0; index < as.length; index++) {
         const element = as[index];
         if (element.href.endsWith(".mp3")) {
@@ -50,7 +58,11 @@ async function getSongs(folder) {
     // attach an event listner to each song
     Array.from(document.querySelector(".songList").getElementsByTagName("li")).forEach((e, index) => {
         e.addEventListener("click", element => {
-            playMusic(songs[index])
+            playMusic(songs[index]);
+
+            if (shuffleOn) {
+                createShuffleOrder(index);
+            }
         })
     })
 }
@@ -106,6 +118,78 @@ async function displayAlbums() {
     })
 }
 
+// create random song order
+function createShuffleOrder(startIndex = -1) {
+    shuffleOrder = songs.map((song, index) => index);
+
+    // remove current song from random selection
+    if (startIndex !== -1) {
+        shuffleOrder = shuffleOrder.filter(index => index !== startIndex);
+    }
+
+    // shuffle using Fisher-Yates algorithm
+    for (let i = shuffleOrder.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+
+        [shuffleOrder[i], shuffleOrder[j]] =
+            [shuffleOrder[j], shuffleOrder[i]];
+    }
+
+    // keep current song at the beginning
+    if (startIndex !== -1) {
+        shuffleOrder.unshift(startIndex);
+        shufflePosition = 0;
+    }
+    else {
+        shufflePosition = -1;
+    }
+}
+
+
+// play next song
+function playNextSong() {
+    if (!songs || songs.length === 0) return;
+    if (songs.length === 1) {
+        playMusic(songs[0]);
+        return;
+    }
+
+    if (shuffleOn) {
+
+        // create a new random order after all songs finish
+        if (shufflePosition >= shuffleOrder.length - 1) {
+            createShuffleOrder(currentIndex);
+        }
+
+        shufflePosition++;
+
+        playMusic(songs[shuffleOrder[shufflePosition]]);
+    }
+    else {
+        if (currentIndex < songs.length - 1) {
+            playMusic(songs[currentIndex + 1]);
+        }
+    }
+}
+
+
+// play previous song
+function playPreviousSong() {
+    if (!songs || songs.length === 0) return;
+
+    if (shuffleOn) {
+        if (shufflePosition > 0) {
+            shufflePosition--;
+            playMusic(songs[shuffleOrder[shufflePosition]]);
+        }
+    }
+    else {
+        if (currentIndex > 0) {
+            playMusic(songs[currentIndex - 1]);
+        }
+    }
+}
+
 async function main() {
 
     // Get the list of all the songs
@@ -123,6 +207,21 @@ async function main() {
         else {
             currentSong.pause()
             play.src = "/img/play.svg"
+        }
+    })
+
+    // add an event listner to shuffle
+    document.querySelector("#shuffle").addEventListener("click", () => {
+        shuffleOn = !shuffleOn;
+
+        document.querySelector("#shuffle").classList.toggle("active", shuffleOn);
+
+        if (shuffleOn) {
+            createShuffleOrder(currentIndex);
+        }
+        else {
+            shuffleOrder = [];
+            shufflePosition = -1;
         }
     })
 
@@ -151,25 +250,17 @@ async function main() {
 
     // add an event listner to previous
     previous.addEventListener("click", () => {
-        let index = songs.indexOf(decodeURIComponent(currentSong.src.split("/").slice(-1)[0]))
-        if ((index - 1) >= 0) {
-            playMusic(songs[index - 1])
-        }
+        playPreviousSong();
     })
 
     // add an event listner to next
     next.addEventListener("click", () => {
-        let index = songs.indexOf(decodeURIComponent(currentSong.src.split("/").slice(-1)[0]))
-        if ((index + 1) < songs.length) {
-            playMusic(songs[index + 1])
-        }
+        playNextSong();
     })
 
     // automatically play next song when current song ends
     currentSong.addEventListener("ended", () => {
-        if (currentIndex < songs.length - 1) {
-            playMusic(songs[currentIndex + 1])
-        }
+        playNextSong();
     })
 
     // add an event to volume
