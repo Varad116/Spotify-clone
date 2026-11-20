@@ -75,7 +75,7 @@ body {
 }
 
 .library {
-    min-height: 80vh;
+    min-height: 90vh;
     position: relative;
 }
 
@@ -326,6 +326,10 @@ body {
     justify-content: center;
     align-items: center;
     gap: 14px;
+}
+
+.arc {
+    font-size: 1.5rem;
 }
 
 
